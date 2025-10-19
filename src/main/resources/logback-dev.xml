@@ -1,0 +1,16 @@
+<configuration>
+    <conversionRule conversionWord="highlight" class="com.boki.stresstest.common.converter.LogbackLevelHighlightConverter"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="com.boki.stresstest.common.filter.ExcludeLoggingFilter"/>
+
+        <encoder>
+            <pattern>[%cyan(%X{request_id:-})] [%yellow(%X{authentication:-Anonymous})] %boldMagenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) %highlight(%-5level) [%thread] %cyan(%logger{36}) - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

@@ -1,0 +1,41 @@
+<configuration>
+    <conversionRule conversionWord="highlight" converterClass="net.com.boki.stresstest.common.converter.LogbackLevelHighlightConverter"/>
+
+    <property name="LOG_FILE_PATH" value="./logs"/>
+    <property name="ACTIVE_LOG_FILE" value="${LOG_FILE_PATH}/backend.log"/>
+    <property name="ROLLING_LOG_FILE" value="${LOG_FILE_PATH}/backend-%i.%d{yyyy-MM-dd}.log.gz"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="com.boki.stresstest.common.filter.ExcludeLoggingFilter"/>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>[%cyan(%X{request_id:-})] [%yellow(%X{authentication:-Anonymous})] %boldMagenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) %highlight(%-5level) [%thread] %cyan(%logger{36}) - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="com.boki.stresstest.common.filter.ExcludeLoggingFilter"/>
+        <file>${ACTIVE_LOG_FILE}</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${ROLLING_LOG_FILE}</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%X{request_id:-}] [%X{authentication:-Anonymous}] %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

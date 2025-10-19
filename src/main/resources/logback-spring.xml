@@ -1,0 +1,19 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- Default fallback -->
+    <springProfile name="default, local">
+        <include resource="logback-dev.xml"/>
+    </springProfile>
+
+    <!-- Dev -->
+    <springProfile name="dev">
+        <include resource="logback-dev.xml"/>
+    </springProfile>
+
+    <!-- Prod -->
+    <springProfile name="prod">
+        <include resource="logback-prod.xml"/>
+    </springProfile>
+
+</configuration>
